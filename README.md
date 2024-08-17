@@ -71,3 +71,29 @@ errors:
     detail_en_US: "Not Found"
     detail_hi_IN: "नहीं मिला"
 ```
+
+> Keep this yaml file (`errors.yaml`) at the root of your directory, outside `src`.
+ Or you can keep it wherever you please and set the `ERROR_YAML_FILE_PATH` environment variable.
+
+> As for the locale configuration, by default, the crate picks up the default value from the `DEFAULT_LOCALE` env, which is set to `en_US` by default.
+- You can change this env to any value you like, provided the corresponding keys are present in yout errors yaml file.
+
+> If you wish to dynamically change the locale programmatically at any given point, you can call the `standard_error::set_current_locale` function like so
+
+```rust
+use stadard_error::set_current_locale;
+
+
+def my_business_logic(){
+    //...
+    set_current_locale("hi_IN");
+    //...
+}
+
+This sets a thread local refcell variable that'll persist throught the thread. Since it's a `RefCell` value, and not something like `Arc`, you don't have to worry about it leaking into your other threads/requests.
+
+
+
+```
+
+
