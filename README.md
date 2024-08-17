@@ -81,7 +81,7 @@ errors:
 > If you wish to dynamically change the locale programmatically at any given point, you can call the `standard_error::set_current_locale` function like so
 
 ```rust
-use stadard_error::set_current_locale;
+use standard_error::set_current_locale;
 
 
 def my_business_logic(){
