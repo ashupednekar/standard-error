@@ -89,11 +89,10 @@ fn my_business_logic(){
     set_current_locale("hi_IN");
     //...
 }
-
-This sets a thread local refcell variable that'll persist throught the thread. Since it's a `RefCell` value, and not something like `Arc`, you don't have to worry about it leaking into your other threads/requests.
-
-
-
 ```
+
+> This sets a thread local refcell variable that'll persist throught the thread. Since it's a `RefCell` value, and not something like `Arc`, you don't have to worry about it leaking into your other threads/requests.
+
+
 
 
