@@ -1,5 +1,6 @@
 [package]
 name = "standard-error"
+description = "simplifies returning meaningful errors for axum services"
 authors = ["ashupednekar <ashupednekar49@gmail.com>"]
 version = "0.1.0"
 edition = "2021"
