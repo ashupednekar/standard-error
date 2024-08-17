@@ -5,6 +5,7 @@ use lazy_static::lazy_static;
 mod locale;
 mod loader;
 mod response;
+mod conf;
 
 pub use locale::get_current_locale as get_current_locale;
 pub use locale::set_current_locale as set_current_locale;
@@ -42,6 +43,7 @@ impl StandardError {
 
 
 lazy_static! {
+    pub static ref settings: conf::Settings = conf::Settings::new().expect("improperly configured");
     pub static ref error_messages: StandardErrorMessages =
         StandardError::load_error_messages().expect("error loading error messages");
 }

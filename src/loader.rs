@@ -1,4 +1,4 @@
-use crate::{StandardError, StandardErrorMessages};
+use crate::{StandardError, StandardErrorMessages, settings};
 use serde_yaml::Value;
 use serde_json::to_string_pretty;
 use std::{
@@ -8,7 +8,7 @@ use std::{
 
 impl StandardError{
     pub fn load_error_messages() -> Result<StandardErrorMessages, Box<dyn std::error::Error>> {
-        let file = File::open("errors.yaml")?;
+        let file = File::open(&settings.error_yaml_file_path)?;
         let reader = BufReader::new(file);
         let yaml: Value = serde_yaml::from_reader(reader)?;
         let mut messages = HashMap::new();
