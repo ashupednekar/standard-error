@@ -84,7 +84,7 @@ errors:
 use standard_error::set_current_locale;
 
 
-def my_business_logic(){
+fn my_business_logic(){
     //...
     set_current_locale("hi_IN");
     //...
