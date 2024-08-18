@@ -1,6 +1,7 @@
 use axum::http::StatusCode;
 use std::collections::HashMap;
 use lazy_static::lazy_static;
+use thiserror::Error;
 
 mod locale;
 mod loader;
@@ -12,7 +13,8 @@ pub use locale::set_current_locale as set_current_locale;
 
 pub type StandardErrorMessages = HashMap<String, HashMap<String, String>>;
 
-#[derive(Debug)]
+#[derive(Debug, Error)]
+#[error("Error {code} with status {status_code} for locale {locale}")]
 pub struct StandardError {
     code: String,
     locale: String,
