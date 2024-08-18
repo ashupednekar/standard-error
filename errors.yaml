@@ -8,3 +8,6 @@ errors:
   - code: ER-0003
     detail_en_US: "Not Found"
     detail_hi_IN: "नहीं मिला"
+  - code: ER-0004
+    detail_en_US: "Should be an integer"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए"

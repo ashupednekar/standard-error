@@ -12,6 +12,7 @@ pub use locale::set_current_locale as set_current_locale;
 
 pub type StandardErrorMessages = HashMap<String, HashMap<String, String>>;
 
+#[derive(Debug)]
 pub struct StandardError {
     code: String,
     locale: String,
@@ -40,8 +41,6 @@ impl StandardError {
 }
 
 
-
-
 lazy_static! {
     pub static ref settings: conf::Settings = conf::Settings::new().expect("improperly configured");
     pub static ref error_messages: StandardErrorMessages =
@@ -50,4 +49,25 @@ lazy_static! {
 
 #[cfg(test)]
 mod tests {
+    use std::num::ParseIntError;
+
+    use axum::http::StatusCode;
+
+    use crate::StandardError;
+
+
+    #[tokio::test]
+    async fn test_question_mark() -> Result<(), StandardError>{
+
+        async fn foo(a: &str) -> Result<i32, StandardError>{
+            a.parse().map_err(|_: ParseIntError|{
+                StandardError::from("ER-0004", StatusCode::BAD_REQUEST)
+            })
+        }
+
+        foo("1").await?;
+
+        Ok(())
+    }
+
 }
