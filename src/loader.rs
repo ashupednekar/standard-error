@@ -33,7 +33,7 @@ impl StandardError{
                 }
             }
         }
-        log::info!(
+        log::debug!(
             "Loaded error messages: {}",
             to_string_pretty(&messages)?
         );
