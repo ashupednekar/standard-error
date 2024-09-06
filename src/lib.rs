@@ -82,7 +82,7 @@ mod tests {
 
         async fn foo(a: &str) -> Result<i32, StandardError>{
             a.parse().map_err(|_: ParseIntError|{
-                StandardError::from("ER-0004", StatusCode::BAD_REQUEST)
+                StandardError::from("ER-0004", Some(StatusCode::BAD_REQUEST), None)
             })
         }
 
