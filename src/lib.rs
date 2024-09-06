@@ -22,11 +22,11 @@ pub struct StandardError {
 }
 
 impl StandardError {
-   pub fn from(code: &str, status_code: StatusCode) -> Self {
+   pub fn from(code: &str, status_code: Option<StatusCode>) -> Self {
         StandardError {
             code: code.to_string(),
             locale: locale::get_current_locale(),
-            status_code,
+            status_code: status_code.unwrap_or(StatusCode::INTERNAL_SERVER_ERROR),
         }
     }
 
