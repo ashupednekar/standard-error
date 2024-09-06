@@ -19,14 +19,32 @@ pub struct StandardError {
     code: String,
     locale: String,
     status_code: StatusCode,
+    values: HashMap<String, String>
+}
+
+trait Interpolate{
+    fn interpolate(&mut self, values: HashMap<String, String>) -> String;
+}
+
+impl Interpolate for String{
+    fn interpolate(&mut self, values: HashMap<String, String>) -> String {
+        for (k, v) in values.into_iter(){
+            *self = self.replace(
+                &format!("[{}]", &k),
+                &v
+            ); 
+        }
+        self.to_string()
+    }
 }
 
 impl StandardError {
-   pub fn from(code: &str, status_code: Option<StatusCode>) -> Self {
+   pub fn from(code: &str, status_code: Option<StatusCode>, values: Option<HashMap<String, String>>) -> Self {
         StandardError {
             code: code.to_string(),
             locale: locale::get_current_locale(),
             status_code: status_code.unwrap_or(StatusCode::INTERNAL_SERVER_ERROR),
+            values: values.unwrap_or(HashMap::new())
         }
     }
 
@@ -38,6 +56,7 @@ impl StandardError {
                 || "unknown error".to_string(),
                 |msg| msg.to_string(),
             )
+            .interpolate(self.values.clone())
     }
 
 }
