@@ -86,57 +86,84 @@ errors:
   - code: ER-IO-UNKNOWN
     detail_en_US: "An unknown I/O error occurred: [err]"
     detail_hi_IN: "एक अज्ञात I/O त्रुटि हुई: [err]"
-  - code: ER-GIT-NOTFOUND
-    detail_en_US: "Not found: [err]"
-    detail_hi_IN: "नहीं मिला: [err]"
-  - code: ER-GIT-INVALIDSPEC
-    detail_en_US: "Invalid specification: [err]"
-    detail_hi_IN: "अमान्य विशिष्टता: [err]"
-  - code: ER-GIT-AUTHENTICATION
-    detail_en_US: "Authentication error: [err]"
-    detail_hi_IN: "प्रमाणीकरण त्रुटि: [err]"
-  - code: ER-GIT-AUTH
-    detail_en_US: "Authorization error: [err]"
-    detail_hi_IN: "अनुमति त्रुटि: [err]"
-  - code: ER-GIT-CONFIG
-    detail_en_US: "Configuration error: [err]"
-    detail_hi_IN: "कॉन्फ़िगरेशन त्रुटि: [err]"
-  - code: ER-GIT-REFERENCE
-    detail_en_US: "Reference error: [err]"
-    detail_hi_IN: "संदर्भ त्रुटि: [err]"
-  - code: ER-GIT-OBJECT
-    detail_en_US: "Object error: [err]"
-    detail_hi_IN: "ऑब्जेक्ट त्रुटि: [err]"
-  - code: ER-GIT-INDEX
-    detail_en_US: "Index error: [err]"
-    detail_hi_IN: "इंडेक्स त्रुटि: [err]"
-  - code: ER-GIT-WORKTREE
-    detail_en_US: "Worktree error: [err]"
-    detail_hi_IN: "वर्कट्री त्रुटि: [err]"
-  - code: ER-GIT-MERGE
-    detail_en_US: "Merge error: [err]"
-    detail_hi_IN: "मर्ज त्रुटि: [err]"
-  - code: ER-GIT-TREE
-    detail_en_US: "Tree error: [err]"
-    detail_hi_IN: "ट्री त्रुटि: [err]"
-  - code: ER-GIT-INDEXNOTFOUND
-    detail_en_US: "Index not found: [err]"
-    detail_hi_IN: "इंडेक्स नहीं मिला: [err]"
-  - code: ER-GIT-BRANCH
-    detail_en_US: "Branch error: [err]"
-    detail_hi_IN: "ब्रांच त्रुटि: [err]"
-  - code: ER-GIT-TAG
-    detail_en_US: "Tag error: [err]"
-    detail_hi_IN: "टैग त्रुटि: [err]"
-  - code: ER-GIT-COMMIT
-    detail_en_US: "Commit error: [err]"
-    detail_hi_IN: "कमीट त्रुटि: [err]"
-  - code: ER-GIT-CHECKOUT
-    detail_en_US: "Checkout error: [err]"
-    detail_hi_IN: "चेकआउट त्रुटि: [err]"
-  - code: ER-GIT-REPO
-    detail_en_US: "Repository error: [err]"
-    detail_hi_IN: "रिपोजिटरी त्रुटि: [err]"
-  - code: ER-GIT-UNKNOWN
-    detail_en_US: "An unknown Git error occurred: [err]"
-    detail_hi_IN: "एक अज्ञात Git त्रुटि हुई: [err]"
+  - code: ERR-GIT-GENERIC
+    detail_en_US: "A generic error occurred in the Git operation: [err]"
+    detail_hi_IN: "Git ऑपरेशन में सामान्य त्रुटि हुई: [err]"
+  - code: ERR-GIT-NOTFOUND
+    detail_en_US: "The requested resource was not found in the Git repository: [err]"
+    detail_hi_IN: "Git रिपॉजिटरी में अनुरोधित संसाधन नहीं मिला: [err]"
+  - code: ERR-GIT-EXISTS
+    detail_en_US: "The resource already exists in the Git repository: [err]"
+    detail_hi_IN: "Git रिपॉजिटरी में संसाधन पहले से मौजूद है: [err]"
+  - code: ERR-GIT-AMBIGUOUS
+    detail_en_US: "The Git reference is ambiguous: [err]"
+    detail_hi_IN: "Git संदर्भ अस्पष्ट है: [err]"
+  - code: ERR-GIT-BUFSIZE
+    detail_en_US: "Buffer size is insufficient for the Git operation: [err]"
+    detail_hi_IN: "Git ऑपरेशन के लिए बफ़र आकार अपर्याप्त है: [err]"
+  - code: ERR-GIT-USER
+    detail_en_US: "User-defined error encountered in the Git operation: [err]"
+    detail_hi_IN: "Git ऑपरेशन में उपयोगकर्ता-परिभाषित त्रुटि आई: [err]"
+  - code: ERR-GIT-BARE-REPO
+    detail_en_US: "Operation cannot be performed on a bare Git repository: [err]"
+    detail_hi_IN: "Bare Git रिपॉजिटरी पर ऑपरेशन नहीं किया जा सकता: [err]"
+  - code: ERR-GIT-UNBORN-BRANCH
+    detail_en_US: "The branch has not been created yet: [err]"
+    detail_hi_IN: "शाखा अभी तक नहीं बनाई गई है: [err]"
+  - code: ERR-GIT-UNMERGED
+    detail_en_US: "There are unmerged changes in the Git repository: [err]"
+    detail_hi_IN: "Git रिपॉजिटरी में अप्रयुक्त परिवर्तन हैं: [err]"
+  - code: ERR-GIT-NOT-FAST-FORWARD
+    detail_en_US: "The branch is not fast-forwardable: [err]"
+    detail_hi_IN: "शाखा को फास्ट-फॉरवर्ड नहीं किया जा सकता: [err]"
+  - code: ERR-GIT-INVALID-SPEC
+    detail_en_US: "The Git specification provided is invalid: [err]"
+    detail_hi_IN: "Git स्पेसिफिकेशन अमान्य है: [err]"
+  - code: ERR-GIT-CONFLICT
+    detail_en_US: "A conflict occurred during the Git operation: [err]"
+    detail_hi_IN: "Git ऑपरेशन के दौरान एक संघर्ष हुआ: [err]"
+  - code: ERR-GIT-LOCKED
+    detail_en_US: "The Git resource is locked: [err]"
+    detail_hi_IN: "Git संसाधन लॉक है: [err]"
+  - code: ERR-GIT-MODIFIED
+    detail_en_US: "The file has been modified: [err]"
+    detail_hi_IN: "फ़ाइल संशोधित की गई है: [err]"
+  - code: ERR-GIT-AUTH
+    detail_en_US: "Authentication failed during the Git operation: [err]"
+    detail_hi_IN: "Git ऑपरेशन के दौरान प्रमाणीकरण विफल हुआ: [err]"
+  - code: ERR-GIT-CERTIFICATE
+    detail_en_US: "Certificate validation failed during the Git operation: [err]"
+    detail_hi_IN: "Git ऑपरेशन के दौरान प्रमाणपत्र मान्यकरण विफल हुआ: [err]"
+  - code: ERR-GIT-APPLIED
+    detail_en_US: "The patch has already been applied: [err]"
+    detail_hi_IN: "पैच पहले ही लागू हो चुका है: [err]"
+  - code: ERR-GIT-PEEL
+    detail_en_US: "Peeling operation failed: [err]"
+    detail_hi_IN: "Peeling ऑपरेशन विफल रहा: [err]"
+  - code: ERR-GIT-EOF
+    detail_en_US: "Unexpected end of file encountered: [err]"
+    detail_hi_IN: "फ़ाइल का अप्रत्याशित अंत हुआ: [err]"
+  - code: ERR-GIT-INVALID
+    detail_en_US: "An invalid operation was attempted: [err]"
+    detail_hi_IN: "एक अमान्य ऑपरेशन का प्रयास किया गया: [err]"
+  - code: ERR-GIT-UNCOMMITTED
+    detail_en_US: "There are uncommitted changes: [err]"
+    detail_hi_IN: "कुछ बिना कमिट किए हुए बदलाव हैं: [err]"
+  - code: ERR-GIT-DIRECTORY
+    detail_en_US: "The directory is invalid or not found: [err]"
+    detail_hi_IN: "डायरेक्टरी अमान्य है या नहीं मिली: [err]"
+  - code: ERR-GIT-MERGE-CONFLICT
+    detail_en_US: "A merge conflict occurred: [err]"
+    detail_hi_IN: "मर्ज संघर्ष हुआ: [err]"
+  - code: ERR-GIT-HASHSUM-MISMATCH
+    detail_en_US: "Hashsum mismatch detected: [err]"
+    detail_hi_IN: "हैशसम बेमेल पाया गया: [err]"
+  - code: ERR-GIT-INDEX-DIRTY
+    detail_en_US: "The Git index is dirty: [err]"
+    detail_hi_IN: "Git इंडेक्स गंदा है: [err]"
+  - code: ERR-GIT-APPLY-FAIL
+    detail_en_US: "Failed to apply the patch: [err]"
+    detail_hi_IN: "पैच को लागू करने में विफलता: [err]"
+  - code: ERR-GIT-OWNER
+    detail_en_US: "Invalid owner in the Git operation: [err]"
+    detail_hi_IN: "Git ऑपरेशन में अमान्य मालिक: [err]"
