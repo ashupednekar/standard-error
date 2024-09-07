@@ -118,8 +118,8 @@ mod tests {
         let res = foo("a").await;
 
         if let Err(e) = res{
-            assert_eq!(e.status_code, StatusCode::IM_A_TEAPOT);
-            assert_eq!(e.message, "Should be an integer - fname: ashu | lname: pednekar - invalid digit found in string".to_string())
+            assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
+            assert_eq!(e.message, "Should be an integer - fname: ashu | lname: pednekar".to_string())
         }
 
         Ok(())
@@ -132,7 +132,7 @@ mod tests {
                 let mut values: HashMap<String, String> = HashMap::new();
                 values.insert("fname".to_string(), "ashu".to_string());
                 values.insert("lname".to_string(), "pednekar".to_string());
-                StandardError::new("ER-0006")
+                StandardError::new("ER-0007")
                     .code(StatusCode::IM_A_TEAPOT)
                     .interpolate_values(values)
                     .interpolate_err(e.to_string())
@@ -142,8 +142,8 @@ mod tests {
         let res = foo("a").await;
 
         if let Err(e) = res{
-            assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
-            assert_eq!(e.message, "Should be an integer - fname: ashu | lname: pednekar".to_string())
+            assert_eq!(e.status_code, StatusCode::IM_A_TEAPOT);
+            assert_eq!(e.message, "Should be an integer - fname: ashu | lname: pednekar - invalid digit found in string".to_string())
         }
 
         Ok(())
