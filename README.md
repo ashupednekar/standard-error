@@ -10,6 +10,7 @@
 
 ## Usage
 
+
 Below is an example of how to use `standard-error` in a web application using the `Axum` framework:
 
 ```rust
@@ -26,7 +27,7 @@ pub async fn my_handler(Query(params): Query<HashMap<String, String>>) -> Result
     let group = match params.get("name") {
         Some(g) => g,
         None => {
-            return Err(StandardError::from("ER-0037", StatusCode::BAD_REQUEST));
+            return Err(StandardError::new("ER-0037").code(StatusCode::BAD_REQUEST));
         }
     };
     Ok(Json(json!({"message": "success"})))
@@ -38,6 +39,92 @@ pub async fn my_handler(Query(params): Query<HashMap<String, String>>) -> Result
 - **Error Handling**: In the example, StandardError is used to handle cases where a required query parameter is missing. If the group parameter is not provided, the function returns a StandardError with the appropriate error code and HTTP status.
 - **Error Code**: The error code "ER-0037" is used to look up the relevant error message based on the locale.
 
+## Scenarios
+
+### Basic Error Handling with Default Status Code
+
+If a parsing error occurs (e.g., trying to convert a string to an integer), a StandardError can be returned with a default status code (`500 INTERNAL_SERVER_ERROR`):
+
+```rust
+async fn parse_int(a: &str) -> Result<i32, StandardError> {
+    a.parse().map_err(|_| StandardError::new("ER-0004"))
+}
+
+// Example usage
+let res = parse_int("abc").await;
+// This will return an error with code "ER-0004" and status code 500.
+```
+
+### Setting a Custom Status Code
+
+You can customize the status code to something other than the default. For example, returning `400 BAD_REQUEST`:
+
+```rust
+async fn parse_int_custom(a: &str) -> Result<i32, StandardError> {
+    a.parse().map_err(|_| StandardError::new("ER-0004").code(StatusCode::BAD_REQUEST))
+}
+
+// Example usage
+let res = parse_int_custom("abc").await;
+// This will return an error with code "ER-0004" and status code 400.
+```
+
+### Interpolating Error Details
+
+`StandardError` supports error message interpolation. For example, you can include the specific error details when returning the error:
+
+```rust
+async fn parse_with_error_interpolation(a: &str) -> Result<i32, StandardError> {
+    a.parse().map_err(|e| StandardError::new("ER-0005").interpolate_err(e.to_string()))
+}
+
+// Example usage
+let res = parse_with_error_interpolation("abc").await;
+// This will return an error with code "ER-0005" and message: "Should be an integer: invalid digit found in string".
+```
+
+### Interpolating Values
+
+You can interpolate additional values into the error message, such as user-specific data:
+
+```rust
+async fn parse_with_value_interpolation(a: &str) -> Result<i32, StandardError> {
+    a.parse().map_err(|_| {
+        let mut values = HashMap::new();
+        values.insert("fname".to_string(), "ashu".to_string());
+        values.insert("lname".to_string(), "pednekar".to_string());
+        StandardError::new("ER-0006").interpolate_values(values)
+    })
+}
+
+// Example usage
+let res = parse_with_value_interpolation("abc").await;
+// This will return an error with code "ER-0006" and message: "Should be an integer - fname: ashu | lname: pednekar".
+```
+
+### Chaining Status Code and Interpolations
+
+You can chain multiple methods on `StandardError`, like setting a custom status code and interpolating both error details and values:
+
+```rust
+
+async fn parse_with_chained_errors(a: &str) -> Result<i32, StandardError> {
+    a.parse().map_err(|e| {
+        let mut values = HashMap::new();
+        values.insert("fname".to_string(), "ashu".to_string());
+        values.insert("lname".to_string(), "pednekar".to_string());
+        StandardError::new("ER-0007")
+            .code(StatusCode::IM_A_TEAPOT)
+            .interpolate_values(values)
+            .interpolate_err(e.to_string())
+    })
+}
+
+// Example usage
+let res = parse_with_chained_errors("abc").await;
+// This will return an error with code "ER-0007", status code 418, and message:
+// "Should be an integer - fname: ashu | lname: pednekar - invalid digit found in string".
+```
 
 ## Installation
 
@@ -70,6 +157,18 @@ errors:
   - code: ER-0003
     detail_en_US: "Not Found"
     detail_hi_IN: "नहीं मिला"
+  - code: ER-0004
+    detail_en_US: "Should be an integer"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए"
+  - code: ER-0005
+    detail_en_US: "Should be an integer: [err]"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए"
+  - code: ER-0006
+    detail_en_US: "Should be an integer - fname: [fname] | lname: [lname]"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए"
+  - code: ER-0007
+    detail_en_US: "Should be an integer - fname: [fname] | lname: [lname] - [err]"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए"
 ```
 
 > Keep this yaml file (`errors.yaml`) at the root of your directory, outside `src`.
