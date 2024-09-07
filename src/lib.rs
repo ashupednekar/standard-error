@@ -39,7 +39,7 @@ impl Interpolate for String{
 }
 
 impl StandardError {
-   pub fn from(code: &str, status_code: Option<StatusCode>, values: Option<HashMap<String, String>>) -> Self {
+   pub fn new(code: &str, status_code: Option<StatusCode>, values: Option<HashMap<String, String>>) -> Self {
         StandardError {
             code: code.to_string(),
             locale: locale::get_current_locale(),
