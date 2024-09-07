@@ -190,6 +190,51 @@ errors:
   - code: ER-DB-UNKNOWN
     detail_en_US: "An unknown Diesel error occurred: [err]"
     detail_hi_IN: "एक अज्ञात डीजल त्रुटि हुई: [err]"
+  - code: ER-IO-NOTFOUND
+    detail_en_US: "File not found: [err]"
+    detail_hi_IN: "फाइल नहीं मिली: [err]"
+  - code: ER-IO-PERMISSION
+    detail_en_US: "Permission denied: [err]"
+    detail_hi_IN: "अनुमति अस्वीकृत: [err]"
+  - code: ER-IO-CONNECTION
+    detail_en_US: "Connection refused: [err]"
+    detail_hi_IN: "कनेक्शन अस्वीकृत: [err]"
+  - code: ER-IO-RESET
+    detail_en_US: "Connection reset: [err]"
+    detail_hi_IN: "कनेक्शन रीसेट: [err]"
+  - code: ER-IO-ABORTED
+    detail_en_US: "Connection aborted: [err]"
+    detail_hi_IN: "कनेक्शन समाप्त: [err]"
+  - code: ER-IO-NOTCONNECTED
+    detail_en_US: "Not connected: [err]"
+    detail_hi_IN: "कनेक्टेड नहीं: [err]"
+  - code: ER-IO-ADDRINUSE
+    detail_en_US: "Address in use: [err]"
+    detail_hi_IN: "पता उपयोग में: [err]"
+  - code: ER-IO-ADDRNOTAVAILABLE
+    detail_en_US: "Address not available: [err]"
+    detail_hi_IN: "पता उपलब्ध नहीं: [err]"
+  - code: ER-IO-BROKENPIPE
+    detail_en_US: "Broken pipe: [err]"
+    detail_hi_IN: "टूटे हुए पाइप: [err]"
+  - code: ER-IO-ALREADYEXISTS
+    detail_en_US: "Already exists: [err]"
+    detail_hi_IN: "पहले से मौजूद है: [err]"
+  - code: ER-IO-WOULDBLOCK
+    detail_en_US: "Operation would block: [err]"
+    detail_hi_IN: "ऑपरेशन ब्लॉक होगा: [err]"
+  - code: ER-IO-TIMEDOUT
+    detail_en_US: "Operation timed out: [err]"
+    detail_hi_IN: "ऑपरेशन समय समाप्त: [err]"
+  - code: ER-IO-INTERRUPTED
+    detail_en_US: "Operation interrupted: [err]"
+    detail_hi_IN: "ऑपरेशन बाधित: [err]"
+  - code: ER-IO-UNEXPECTEDEOF
+    detail_en_US: "Unexpected end of file: [err]"
+    detail_hi_IN: "अप्रत्याशित फ़ाइल अंत: [err]"
+  - code: ER-IO-UNKNOWN
+    detail_en_US: "An unknown I/O error occurred: [err]"
+    detail_hi_IN: "एक अज्ञात I/O त्रुटि हुई: [err]"
 ```
 
 > Keep this yaml file (`errors.yaml`) at the root of your directory, outside `src`.
