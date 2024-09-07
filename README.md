@@ -140,6 +140,8 @@ or with cargo
 cargo add standard-error
 ```
 
+Add features `diesel` or `git` to auto-magically handle errors raised by these diesel and git2 crates respectively
+
 ## Configuration
 
 To configure standard-error, you can provide YAML files containing error messages for different locales. The crate will automatically load the correct message based on the locale specified in your application.
