@@ -59,6 +59,11 @@ impl StandardError {
             .interpolate(self.values.clone())
     }
 
+    pub fn err_to_msg(e: String) -> Option<HashMap<String, String>>{
+        let mut val: HashMap<String, String> = HashMap::new();
+        val.insert("msg".to_string(), e.to_string());
+        Some(val)
+    }
 }
 
 
