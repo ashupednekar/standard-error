@@ -140,7 +140,7 @@ or with cargo
 cargo add standard-error
 ```
 
-Add features `diesel` or `git` to auto-magically handle errors raised by these diesel and git2 crates respectively
+> Note: Add features `diesel` or `git` to auto-magically handle errors raised by these diesel and git2 crates respectively
 
 ## Configuration
 
