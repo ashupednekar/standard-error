@@ -4,8 +4,12 @@ use serde::Deserialize;
 
 use crate::{StandardError, StandardErrorMessages};
 
-fn default_locale() -> String {"en_US".to_string()}
-fn default_yaml_path() -> String {"errors.yaml".to_string()}
+fn default_locale() -> String {
+    "en_US".to_string()
+}
+fn default_yaml_path() -> String {
+    "errors.yaml".to_string()
+}
 
 #[derive(Deserialize)]
 pub struct Settings {

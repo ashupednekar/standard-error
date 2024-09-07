@@ -1,12 +1,9 @@
-use crate::{StandardError, StandardErrorMessages, settings};
-use serde_yaml::Value;
+use crate::{settings, StandardError, StandardErrorMessages};
 use serde_json::to_string_pretty;
-use std::{
-    fs::File, io::BufReader, collections::HashMap
-};
+use serde_yaml::Value;
+use std::{collections::HashMap, fs::File, io::BufReader};
 
-
-impl StandardError{
+impl StandardError {
     pub fn load_error_messages() -> Result<StandardErrorMessages, Box<dyn std::error::Error>> {
         let file = File::open(&settings.error_yaml_file_path)?;
         let reader = BufReader::new(file);
@@ -33,15 +30,10 @@ impl StandardError{
                 }
             }
         }
-        log::debug!(
-            "Loaded error messages: {}",
-            to_string_pretty(&messages)?
-        );
+        log::debug!("Loaded error messages: {}", to_string_pretty(&messages)?);
         Ok(messages)
     }
 }
-
-
 
 #[cfg(test)]
 mod tests {

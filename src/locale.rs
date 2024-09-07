@@ -14,5 +14,3 @@ pub fn set_current_locale(locale: &str) {
 pub fn get_current_locale() -> String {
     LOCALE.with(|s| s.borrow().clone())
 }
-
-
