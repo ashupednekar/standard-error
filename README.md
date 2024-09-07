@@ -235,6 +235,60 @@ errors:
   - code: ER-IO-UNKNOWN
     detail_en_US: "An unknown I/O error occurred: [err]"
     detail_hi_IN: "एक अज्ञात I/O त्रुटि हुई: [err]"
+  - code: ER-GIT-NOTFOUND
+    detail_en_US: "Not found: [err]"
+    detail_hi_IN: "नहीं मिला: [err]"
+  - code: ER-GIT-INVALIDSPEC
+    detail_en_US: "Invalid specification: [err]"
+    detail_hi_IN: "अमान्य विशिष्टता: [err]"
+  - code: ER-GIT-AUTHENTICATION
+    detail_en_US: "Authentication error: [err]"
+    detail_hi_IN: "प्रमाणीकरण त्रुटि: [err]"
+  - code: ER-GIT-AUTH
+    detail_en_US: "Authorization error: [err]"
+    detail_hi_IN: "अनुमति त्रुटि: [err]"
+  - code: ER-GIT-CONFIG
+    detail_en_US: "Configuration error: [err]"
+    detail_hi_IN: "कॉन्फ़िगरेशन त्रुटि: [err]"
+  - code: ER-GIT-REFERENCE
+    detail_en_US: "Reference error: [err]"
+    detail_hi_IN: "संदर्भ त्रुटि: [err]"
+  - code: ER-GIT-OBJECT
+    detail_en_US: "Object error: [err]"
+    detail_hi_IN: "ऑब्जेक्ट त्रुटि: [err]"
+  - code: ER-GIT-INDEX
+    detail_en_US: "Index error: [err]"
+    detail_hi_IN: "इंडेक्स त्रुटि: [err]"
+  - code: ER-GIT-WORKTREE
+    detail_en_US: "Worktree error: [err]"
+    detail_hi_IN: "वर्कट्री त्रुटि: [err]"
+  - code: ER-GIT-MERGE
+    detail_en_US: "Merge error: [err]"
+    detail_hi_IN: "मर्ज त्रुटि: [err]"
+  - code: ER-GIT-TREE
+    detail_en_US: "Tree error: [err]"
+    detail_hi_IN: "ट्री त्रुटि: [err]"
+  - code: ER-GIT-INDEXNOTFOUND
+    detail_en_US: "Index not found: [err]"
+    detail_hi_IN: "इंडेक्स नहीं मिला: [err]"
+  - code: ER-GIT-BRANCH
+    detail_en_US: "Branch error: [err]"
+    detail_hi_IN: "ब्रांच त्रुटि: [err]"
+  - code: ER-GIT-TAG
+    detail_en_US: "Tag error: [err]"
+    detail_hi_IN: "टैग त्रुटि: [err]"
+  - code: ER-GIT-COMMIT
+    detail_en_US: "Commit error: [err]"
+    detail_hi_IN: "कमीट त्रुटि: [err]"
+  - code: ER-GIT-CHECKOUT
+    detail_en_US: "Checkout error: [err]"
+    detail_hi_IN: "चेकआउट त्रुटि: [err]"
+  - code: ER-GIT-REPO
+    detail_en_US: "Repository error: [err]"
+    detail_hi_IN: "रिपोजिटरी त्रुटि: [err]"
+  - code: ER-GIT-UNKNOWN
+    detail_en_US: "An unknown Git error occurred: [err]"
+    detail_hi_IN: "एक अज्ञात Git त्रुटि हुई: [err]"
 ```
 
 > Keep this yaml file (`errors.yaml`) at the root of your directory, outside `src`.

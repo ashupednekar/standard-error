@@ -1,6 +1,9 @@
+#[cfg(feature="diesel")]
 use diesel::result::Error as DieselError;
 use crate::{StandardError, Interpolate};
 
+
+#[cfg(feature="diesel")]
 impl From<DieselError> for StandardError {
     fn from(error: DieselError) -> Self {
         match error {
