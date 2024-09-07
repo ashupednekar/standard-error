@@ -13,10 +13,31 @@ errors:
     detail_hi_IN: "एक पूर्णांक होना चाहिए"
   - code: ER-0005
     detail_en_US: "Should be an integer: [err]"
-    detail_hi_IN: "एक पूर्णांक होना चाहिए"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए: [err]"
   - code: ER-0006
     detail_en_US: "Should be an integer - fname: [fname] | lname: [lname]"
-    detail_hi_IN: "एक पूर्णांक होना चाहिए"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए - fname: [fname] | lname: [lname]"
   - code: ER-0007
     detail_en_US: "Should be an integer - fname: [fname] | lname: [lname] - [err]"
-    detail_hi_IN: "एक पूर्णांक होना चाहिए"
+    detail_hi_IN: "एक पूर्णांक होना चाहिए - fname: [fname] | lname: [lname] - [err]"
+  - code: ER-DB-NOTFOUND
+    detail_en_US: "Record not found: [err]"
+    detail_hi_IN: "रिकॉर्ड नहीं मिला: [err]"
+  - code: ER-DB-DATABASE
+    detail_en_US: "Database error: [details]"
+    detail_hi_IN: "डेटाबेस त्रुटि: [details]"
+  - code: ER-DB-QUERYBUILDER
+    detail_en_US: "Query builder error: [err]"
+    detail_hi_IN: "क्वेरी बिल्डर त्रुटि: [err]"
+  - code: ER-DB-DESERIALIZATION
+    detail_en_US: "Deserialization error: [err]"
+    detail_hi_IN: "डिसेरियलाइजेशन त्रुटि: [err]"
+  - code: ER-DB-SERIALIZATION
+    detail_en_US: "Serialization error: [err]"
+    detail_hi_IN: "सीरियलाइजेशन त्रुटि: [err]"
+  - code: ER-DB-ROLLBACK
+    detail_en_US: "Transaction was rolled back: [err]"
+    detail_hi_IN: "लेनदेन को रोलबैक कर दिया गया: [err]"
+  - code: ER-DB-UNKNOWN
+    detail_en_US: "An unknown Diesel error occurred: [err]"
+    detail_hi_IN: "एक अज्ञात डीजल त्रुटि हुई: [err]"
