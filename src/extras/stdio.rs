@@ -1,7 +1,7 @@
 use std::io;
 use crate::{StandardError, Interpolate};
 
-impl From<io::Error> for StandardError {
+impl From<std::io::Error> for StandardError {
     fn from(error: io::Error) -> Self {
         let code = match error.kind() {
             io::ErrorKind::NotFound => "ER-IO-NOTFOUND",
