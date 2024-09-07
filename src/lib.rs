@@ -6,7 +6,7 @@ use thiserror::Error;
 mod conf;
 mod loader;
 mod locale;
-mod extras;
+pub mod extras;
 
 pub use locale::get_current_locale;
 pub use locale::set_current_locale;
