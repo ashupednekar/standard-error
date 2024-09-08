@@ -19,10 +19,10 @@ pub use extras::interpolate::Interpolate;
 #[derive(Debug, Clone, Error)]
 #[error("Error {err_code} with status {status_code}")]
 pub struct StandardError {
-    err_code: String,
-    status_code: StatusCode,
+    pub err_code: String,
+    pub status_code: StatusCode,
     values: HashMap<String, String>,
-    message: String,
+    pub message: String,
 }
 
 impl StandardError {
