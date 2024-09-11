@@ -6,22 +6,21 @@ use crate::{StandardError, Interpolate};
 
 
 impl From<SerdeError> for StandardError {
-    fn from(error: SerdeError) -> Self {
+    fn from(err: SerdeError) -> Self {
         StandardError::new("ER-SERDE")
-            .interpolate_err(format!("Serde error: {}", error))
+            .interpolate_err(err.to_string())
     }
 }
 
 impl From<SerdeJsonError> for StandardError {
-    fn from(error: SerdeJsonError) -> Self {
+    fn from(err: SerdeJsonError) -> Self {
         StandardError::new("ER-SERDE-JSON")
-            .interpolate_err(format!("Serde json error: {}", error))
+            .interpolate_err(err.to_string())
     }
 }
 
 impl From<SerdeYamlError> for StandardError {
-    fn from(error: SerdeYamlError) -> Self {
+    fn from(err: SerdeYamlError) -> Self {
         StandardError::new("ER-SERDE-YAML")
-            .interpolate_err(format!("Serde yaml error: {}", error))
-    }
+            .interpolate_err(err.to_string())    }
 }

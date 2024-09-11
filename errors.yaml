@@ -167,3 +167,12 @@ errors:
   - code: ERR-GIT-OWNER
     detail_en_US: "Invalid owner in the Git operation: [err]"
     detail_hi_IN: "Git ऑपरेशन में अमान्य मालिक: [err]"
+  - code: ERR-SERDE
+    detail_en_US: "Error from serde: [err]"
+    detail_hi_IN: "Git इंडेक्स गंदा है: [err]"
+  - code: ERR-SERDE-JSON
+    detail_en_US: "Error from serde-json: [err]"
+    detail_hi_IN: "पैच को लागू करने में विफलता: [err]"
+  - code: ERR-SERDE-YAML
+    detail_en_US: "Error from serde-yaml: [err]"
+    detail_hi_IN: "Git ऑपरेशन में अमान्य मालिक: [err]"
