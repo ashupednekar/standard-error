@@ -1,4 +1,4 @@
-use crate::{settings, StandardError, StandardErrorMessages};
+use crate::{conf::default_error_messages, settings, StandardError, StandardErrorMessages};
 use serde_json::to_string_pretty;
 use serde_yaml::Value;
 use std::{collections::HashMap, fs::File, io::BufReader};
@@ -8,7 +8,7 @@ impl StandardError {
         let file = File::open(&settings.error_yaml_file_path)?;
         let reader = BufReader::new(file);
         let yaml: Value = serde_yaml::from_reader(reader)?;
-        let mut messages = HashMap::new();
+        let mut messages: StandardErrorMessages = default_error_messages(); 
         if let Some(errors) = yaml.get("errors").and_then(|v| v.as_sequence()) {
             for error in errors {
                 if let Some(code) = error.get("code").and_then(|v| v.as_str()) {
