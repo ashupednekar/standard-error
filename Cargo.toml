@@ -15,6 +15,7 @@ env_logger = "0.11.5"
 git2 = {version = "0.18.2", optional = true}
 lazy_static = "1.5.0"
 log = "0.4.22"
+r2d2_postgres = { version = "0.18.1", optional = true }
 reqwest = { version = "0.12.7", optional = true }
 serde = "1.0.208"
 serde_json = "1.0.125"
@@ -24,7 +25,7 @@ tokio = { version = "1.39.2", features = ["test-util"] }
 validator = { version = "0.18.1", optional = true }
 
 [features]
-diesel = ["dep:diesel"]
+diesel = ["dep:diesel", "dep:r2d2_postgres"]
 git = ["dep:git2"]
 reqwest = ["dep:reqwest"]
 validator = ["dep:validator"]
