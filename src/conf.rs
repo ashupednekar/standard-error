@@ -15,7 +15,7 @@ fn default_yaml_path() -> String {
 pub fn default_error_messages() -> StandardErrorMessages{
     [
         ("ER-DB-NOTFOUND", "Record not found: [err]"),
-        ("ER-DB-DATABASE", "Database error: [details]"),
+        ("ER-DB-DATABASE", "Database error: [err]"),
         ("ER-DB-QUERYBUILDER", "Query builder error: [err]"),
         ("ER-DB-DESERIALIZATION", "Deserialization error: [err]"),
         ("ER-DB-SERIALIZATION", "Serialization error: [err]"),
