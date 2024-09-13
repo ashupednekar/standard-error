@@ -6,7 +6,7 @@ use crate::{StandardError, Interpolate};
 #[cfg(feature="diesel")]
 impl From<DieselError> for StandardError {
     fn from(error: DieselError) -> Self {
-        
+        log::error!("db error: {}", &error.to_string()); 
         match error {
             DieselError::NotFound => StandardError::new("ER-DB-NOTFOUND")
                 .interpolate_err("Record not found".to_string()),
