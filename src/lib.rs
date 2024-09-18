@@ -34,7 +34,7 @@ impl StandardError {
             message: error_messages
                 .get(code)
                 .and_then(|locale_message| locale_message.get(&locale::get_current_locale()))
-                .map_or_else(|| "unknown error".to_string(), |msg| msg.to_string()),
+                .map_or_else(|| format!("unknown error: {}", &code), |msg| msg.to_string()),
         }
     }
 }
