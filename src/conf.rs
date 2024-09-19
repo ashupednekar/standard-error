@@ -65,7 +65,19 @@ pub fn default_error_messages() -> StandardErrorMessages{
         ("ERR-GIT-OWNER", "Invalid owner in the Git operation: [err]"),
         ("ERR-SERDE", "Error from serde: [err]"),
         ("ERR-SERDE-JSON", "Error from serde-json: [err]"),
-        ("ERR-SERDE-YAML", "Error from serde-yaml: [err]")
+        ("ERR-SERDE-YAML", "Error from serde-yaml: [err]"),
+        ("ER-AXUM-IO", "IO error occurred: [err]"),
+        ("ER-AXUM-HYPER", "Hyper error occurred: [err]"),
+        ("ER-AXUM-HTTP", "HTTP error occurred: [err]"),
+        ("ER-AXUM-NOTFOUND", "Resource not found: [err]"),
+        ("ER-AXUM-INTERNAL", "Internal server error: [err]"),
+        ("ER-AXUM-BADREQUEST", "Bad request: [err]"),
+        ("ER-AXUM-FORBIDDEN", "Forbidden request: [err]"),
+        ("ER-AXUM-UNAUTHORIZED", "Unauthorized request: [err]"),
+        ("ER-AXUM-UNKNOWN", "An unknown Axum error occurred: [err]"),
+        ("ER-AXUM-INVALIDHEADERVALUE", "Invalid header value: [err]"),
+        ("ER-AXUM-INVALIDHEADERNAME", "Invalid header name: [err]"),
+        ("ER-AXUM-HTTPERROR", "General HTTP error: [err]"),
     ]
     .iter()
     .map(|(code, en_us)| {
