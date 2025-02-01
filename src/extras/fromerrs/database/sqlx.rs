@@ -1,8 +1,8 @@
-#[cfg(feature = "sqlx")]
+#[cfg(feature="sqlx")]
 use sqlx::error::Error as SqlxError;
 use crate::{StandardError, Interpolate};
 
-#[cfg(feature = "sqlx")]
+#[cfg(feature="sqlx")]
 impl From<SqlxError> for StandardError {
     fn from(error: SqlxError) -> Self {
         log::error!("db error: {}", &error.to_string());
