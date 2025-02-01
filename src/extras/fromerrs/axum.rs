@@ -1,10 +1,7 @@
-#[cfg(feature = "axum")]
-use axum::response::IntoResponse;
-use axum::http::{StatusCode, HeaderValue, Error as HttpError};
+use axum::http::{StatusCode, Error as HttpError};
 use crate::{StandardError, Interpolate};
 use std::error::Error as StdError;
 
-#[cfg(feature = "axum")]
 impl From<axum::Error> for StandardError {
     fn from(error: axum::Error) -> Self {
         log::error!("axum error: {}", &error.to_string());
@@ -25,7 +22,6 @@ impl From<axum::Error> for StandardError {
     }
 }
 
-#[cfg(feature = "axum")]
 impl From<axum::http::StatusCode> for StandardError {
     fn from(status: StatusCode) -> Self {
         log::error!("HTTP error: {}", status.as_u16());
@@ -47,7 +43,6 @@ impl From<axum::http::StatusCode> for StandardError {
     }
 }
 
-#[cfg(feature = "axum")]
 impl From<axum::http::header::InvalidHeaderValue> for StandardError {
     fn from(error: axum::http::header::InvalidHeaderValue) -> Self {
         log::error!("Invalid header value error: {}", &error.to_string());
@@ -56,7 +51,6 @@ impl From<axum::http::header::InvalidHeaderValue> for StandardError {
     }
 }
 
-#[cfg(feature = "axum")]
 impl From<axum::http::header::InvalidHeaderName> for StandardError {
     fn from(error: axum::http::header::InvalidHeaderName) -> Self {
         log::error!("Invalid header name error: {}", &error.to_string());
@@ -65,7 +59,6 @@ impl From<axum::http::header::InvalidHeaderName> for StandardError {
     }
 }
 
-#[cfg(feature = "axum")]
 impl From<axum::http::Error> for StandardError {
     fn from(error: axum::http::Error) -> Self {
         log::error!("HTTP error: {}", &error.to_string());
