@@ -1,29 +1,29 @@
+#[cfg(feature="dynerr")]
 use r2d2::Pool;
+
+#[cfg(feature="dynerr")]
 use redis::cluster::ClusterClient;
+
+#[cfg(feature="dynerr")]
 use redis::{Client, FromRedisValue, RedisError, Commands};
-use std::time::Duration;
 
-use crate::redis_settings;
+#[cfg(feature="dynerr")]
+use crate::{redis_settings, Interpolate, StandardError, Result};
 
-#[derive(Debug)]
-pub enum RedisErr {
-    RedisConnectionError(RedisError),
-    R2d2ConnectionError(r2d2::Error),
-}
-
-impl From<RedisError> for RedisErr {
+#[cfg(feature="dynerr")]
+impl From<RedisError> for StandardError{
     fn from(err: RedisError) -> Self {
-        RedisErr::RedisConnectionError(err)
+        StandardError::new("ER-REDIS").interpolate_err(format!("{:?}", &err))
     }
 }
 
-impl From<r2d2::Error> for RedisErr {
+#[cfg(all(feature = "dynerr", not(feature = "diesel")))]
+impl From<r2d2::Error> for StandardError{
     fn from(err: r2d2::Error) -> Self {
-        RedisErr::R2d2ConnectionError(err)
+        StandardError::new("ER-REDIS").interpolate_err(format!("{:?}", &err))
     }
 }
 
-pub type Result<T> = core::result::Result<T, RedisErr>;
 
 #[derive(Clone)]
 pub enum RedisBackend {
@@ -31,26 +31,26 @@ pub enum RedisBackend {
     RedisCluster(Pool<ClusterClient>),
 }
 
-pub fn init_redis_connection_pool() -> Result<RedisBackend> {
-    if redis_settings.use_redis_cluster {
-        let nodes = vec![redis_settings.cache_location.clone()];
-        let cluster_client = ClusterClient::new(nodes)?;
-        let cluster_pool = Pool::builder()
-            .max_size(5)
-            .connection_timeout(Duration::from_secs(redis_settings.cache_timeout))
-            .build(cluster_client)?;
-        Ok(RedisBackend::RedisCluster(cluster_pool))
-    } else {
-        let client = Client::open(redis_settings.cache_location.clone())?;
-        let pool = Pool::builder()
-            .max_size(5)
-            .connection_timeout(Duration::from_secs(redis_settings.cache_timeout))
-            .build(client)?;
-        Ok(RedisBackend::Redis(pool))
-    }
-}
-
 impl RedisBackend {
+    pub fn new() -> Result<RedisBackend> {
+        if redis_settings.use_redis_cluster {
+            let nodes = vec![redis_settings.cache_location.clone()];
+            let cluster_client = ClusterClient::new(nodes)?;
+            let cluster_pool = Pool::builder()
+                .max_size(5)
+                .connection_timeout(redis_settings.cache_timeout)
+                .build(cluster_client)?;
+            Ok(RedisBackend::RedisCluster(cluster_pool))
+        } else {
+            let client = Client::open(redis_settings.cache_location.clone())?;
+            let pool = Pool::builder()
+                .max_size(5)
+                .connection_timeout(redis_settings.cache_timeout)
+                .build(client)?;
+            Ok(RedisBackend::Redis(pool))
+        }
+    }
+
     pub fn get<T: FromRedisValue>(&self, key: &str) -> Result<Option<T>> {
         match self {
             RedisBackend::Redis(pool) => {

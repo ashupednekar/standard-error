@@ -15,6 +15,8 @@ pub type StandardErrorMessages = HashMap<String, HashMap<String, String>>;
 pub use extras::interpolate::Interpolate;
 pub use extras::status::Status;
 
+pub type Result<T> = core::result::Result<T, StandardError>;
+
 #[derive(Debug, Clone, Error)]
 #[error("Error {err_code} with status {status_code}")]
 pub struct StandardError {
