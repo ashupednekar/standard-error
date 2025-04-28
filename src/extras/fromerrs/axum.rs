@@ -1,15 +1,21 @@
-use axum::http::{StatusCode, Error as HttpError};
-use crate::{StandardError, Interpolate};
+use crate::{Interpolate, StandardError};
+use axum::http::{Error as HttpError, StatusCode};
 use std::error::Error as StdError;
 
 impl From<axum::Error> for StandardError {
     fn from(error: axum::Error) -> Self {
         log::error!("axum error: {}", &error.to_string());
 
-        if let Some(io_err) = error.source().and_then(|e| e.downcast_ref::<std::io::Error>()) {
+        if let Some(io_err) = error
+            .source()
+            .and_then(|e| e.downcast_ref::<std::io::Error>())
+        {
             StandardError::new("ER-AXUM-IO")
                 .interpolate_err(format!("IO error occurred: {}", io_err))
-        } else if let Some(hyper_err) = error.source().and_then(|e| e.downcast_ref::<hyper::Error>()) {
+        } else if let Some(hyper_err) = error
+            .source()
+            .and_then(|e| e.downcast_ref::<hyper::Error>())
+        {
             StandardError::new("ER-AXUM-HYPER")
                 .interpolate_err(format!("Hyper error occurred: {}", hyper_err))
         } else if let Some(http_err) = error.source().and_then(|e| e.downcast_ref::<HttpError>()) {
@@ -31,8 +37,9 @@ impl From<axum::http::StatusCode> for StandardError {
                 .interpolate_err("Resource not found".to_string()),
             StatusCode::INTERNAL_SERVER_ERROR => StandardError::new("ER-AXUM-INTERNAL")
                 .interpolate_err("Internal server error".to_string()),
-            StatusCode::BAD_REQUEST => StandardError::new("ER-AXUM-BADREQUEST")
-                .interpolate_err("Bad request".to_string()),
+            StatusCode::BAD_REQUEST => {
+                StandardError::new("ER-AXUM-BADREQUEST").interpolate_err("Bad request".to_string())
+            }
             StatusCode::FORBIDDEN => StandardError::new("ER-AXUM-FORBIDDEN")
                 .interpolate_err("Forbidden request".to_string()),
             StatusCode::UNAUTHORIZED => StandardError::new("ER-AXUM-UNAUTHORIZED")
@@ -62,7 +69,6 @@ impl From<axum::http::header::InvalidHeaderName> for StandardError {
 impl From<axum::http::Error> for StandardError {
     fn from(error: axum::http::Error) -> Self {
         log::error!("HTTP error: {}", &error.to_string());
-        StandardError::new("ER-AXUM-HTTPERROR")
-            .interpolate_err("General HTTP error".to_string())
+        StandardError::new("ER-AXUM-HTTPERROR").interpolate_err("General HTTP error".to_string())
     }
 }

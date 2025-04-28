@@ -1,9 +1,7 @@
+#[cfg(feature = "git")]
+use crate::{Interpolate, StandardError};
 
-#[cfg(feature="git")]
-use crate::{StandardError, Interpolate};
-
-
-#[cfg(feature="git")]
+#[cfg(feature = "git")]
 impl From<git2::Error> for StandardError {
     fn from(error: git2::Error) -> Self {
         let code = match error.code() {

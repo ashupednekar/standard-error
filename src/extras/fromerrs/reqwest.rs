@@ -1,7 +1,7 @@
 #[cfg(feature = "reqwest")]
 use reqwest::Error as ReqwestError;
 
-use crate::{StandardError, Interpolate};
+use crate::{Interpolate, StandardError};
 
 #[cfg(feature = "reqwest")]
 impl From<ReqwestError> for StandardError {

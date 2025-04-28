@@ -8,7 +8,7 @@ impl StandardError {
         let file = File::open(&settings.error_yaml_file_path)?;
         let reader = BufReader::new(file);
         let yaml: Value = serde_yaml::from_reader(reader)?;
-        let mut messages: StandardErrorMessages = default_error_messages(); 
+        let mut messages: StandardErrorMessages = default_error_messages();
         if let Some(errors) = yaml.get("errors").and_then(|v| v.as_sequence()) {
             for error in errors {
                 if let Some(code) = error.get("code").and_then(|v| v.as_str()) {

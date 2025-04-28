@@ -4,17 +4,18 @@ use std::collections::HashMap;
 use thiserror::Error;
 
 mod conf;
+pub mod extras;
 mod loader;
 mod locale;
-pub mod extras;
 
 pub use locale::get_current_locale;
 pub use locale::set_current_locale;
 
-
 pub type StandardErrorMessages = HashMap<String, HashMap<String, String>>;
-pub use extras::status::Status;
 pub use extras::interpolate::Interpolate;
+pub use extras::status::Status;
+
+pub type Result<T> = core::result::Result<T, StandardError>;
 
 #[derive(Debug, Clone, Error)]
 #[error("Error {err_code} with status {status_code}")]
@@ -34,37 +35,40 @@ impl StandardError {
             message: error_messages
                 .get(code)
                 .and_then(|locale_message| locale_message.get(&locale::get_current_locale()))
-                .map_or_else(|| format!("unknown error: {}", &code), |msg| msg.to_string()),
+                .map_or_else(
+                    || format!("unknown error: {}", &code),
+                    |msg| msg.to_string(),
+                ),
         }
     }
 }
 
-
 lazy_static! {
     pub static ref settings: conf::Settings = conf::Settings::new().expect("improperly configured");
+    #[cfg(feature = "dynerr")]
+    pub static ref redis_settings: conf::RedisSettings = conf::RedisSettings::new().expect("improperly configured");
     pub static ref error_messages: StandardErrorMessages =
         StandardError::load_error_messages().expect("error loading error messages");
 }
 
 #[cfg(test)]
 mod tests {
-    use std::{collections::HashMap, num::ParseIntError};
-    use crate::extras::{status::Status, interpolate::Interpolate};
+    use crate::extras::{interpolate::Interpolate, status::Status};
     use axum::http::StatusCode;
+    use std::{collections::HashMap, num::ParseIntError};
 
     use crate::StandardError;
 
     #[tokio::test]
     async fn test_question_mark() -> Result<(), StandardError> {
         async fn foo(a: &str) -> Result<i32, StandardError> {
-            a.parse().map_err(|_: ParseIntError| {
-                StandardError::new("ER-0004")
-            })
+            a.parse()
+                .map_err(|_: ParseIntError| StandardError::new("ER-0004"))
         }
 
         let res = foo("a").await;
 
-        if let Err(e) = res{
+        if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
             assert_eq!(e.message, "Should be an integer".to_string())
         }
@@ -82,7 +86,7 @@ mod tests {
 
         let res = foo("a").await;
 
-        if let Err(e) = res{
+        if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::BAD_REQUEST);
             assert_eq!(e.message, "Should be an integer".to_string())
         }
@@ -100,9 +104,12 @@ mod tests {
 
         let res = foo("a").await;
 
-        if let Err(e) = res{
+        if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
-            assert_eq!(e.message, "Should be an integer: invalid digit found in string".to_string())
+            assert_eq!(
+                e.message,
+                "Should be an integer: invalid digit found in string".to_string()
+            )
         }
 
         Ok(())
@@ -121,9 +128,12 @@ mod tests {
 
         let res = foo("a").await;
 
-        if let Err(e) = res{
+        if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
-            assert_eq!(e.message, "Should be an integer - fname: ashu | lname: pednekar".to_string())
+            assert_eq!(
+                e.message,
+                "Should be an integer - fname: ashu | lname: pednekar".to_string()
+            )
         }
 
         Ok(())
@@ -145,14 +155,11 @@ mod tests {
 
         let res = foo("a").await;
 
-        if let Err(e) = res{
+        if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::IM_A_TEAPOT);
             assert_eq!(e.message, "Should be an integer - fname: ashu | lname: pednekar - invalid digit found in string".to_string())
         }
 
         Ok(())
     }
-
-
-
 }
