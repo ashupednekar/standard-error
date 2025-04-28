@@ -1,6 +1,7 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, env, time::Duration};
 
 use config::{Config, ConfigError, Environment};
+use humantime::parse_duration;
 use lazy_static::lazy_static;
 use serde::Deserialize;
 
@@ -12,7 +13,7 @@ fn default_locale() -> String {
 fn default_yaml_path() -> String {
     "errors.yaml".to_string()
 }
-pub fn default_error_messages() -> StandardErrorMessages{
+pub fn default_error_messages() -> StandardErrorMessages {
     [
         ("ER-DB-NOTFOUND", "Record not found: [err]"),
         ("ER-DB-DATABASE", "Database error: [err]"),
@@ -36,30 +37,84 @@ pub fn default_error_messages() -> StandardErrorMessages{
         ("ER-IO-INTERRUPTED", "Operation interrupted: [err]"),
         ("ER-IO-UNEXPECTEDEOF", "Unexpected end of file: [err]"),
         ("ER-IO-UNKNOWN", "An unknown I/O error occurred: [err]"),
-        ("ERR-GIT-GENERIC", "A generic error occurred in the Git operation: [err]"),
-        ("ERR-GIT-NOTFOUND", "The requested resource was not found in the Git repository: [err]"),
-        ("ERR-GIT-EXISTS", "The resource already exists in the Git repository: [err]"),
+        (
+            "ERR-GIT-GENERIC",
+            "A generic error occurred in the Git operation: [err]",
+        ),
+        (
+            "ERR-GIT-NOTFOUND",
+            "The requested resource was not found in the Git repository: [err]",
+        ),
+        (
+            "ERR-GIT-EXISTS",
+            "The resource already exists in the Git repository: [err]",
+        ),
         ("ERR-GIT-AMBIGUOUS", "The Git reference is ambiguous: [err]"),
-        ("ERR-GIT-BUFSIZE", "Buffer size is insufficient for the Git operation: [err]"),
-        ("ERR-GIT-USER", "User-defined error encountered in the Git operation: [err]"),
-        ("ERR-GIT-BARE-REPO", "Operation cannot be performed on a bare Git repository: [err]"),
-        ("ERR-GIT-UNBORN-BRANCH", "The branch has not been created yet: [err]"),
-        ("ERR-GIT-UNMERGED", "There are unmerged changes in the Git repository: [err]"),
-        ("ERR-GIT-NOT-FAST-FORWARD", "The branch is not fast-forwardable: [err]"),
-        ("ERR-GIT-INVALID-SPEC", "The Git specification provided is invalid: [err]"),
-        ("ERR-GIT-CONFLICT", "A conflict occurred during the Git operation: [err]"),
+        (
+            "ERR-GIT-BUFSIZE",
+            "Buffer size is insufficient for the Git operation: [err]",
+        ),
+        (
+            "ERR-GIT-USER",
+            "User-defined error encountered in the Git operation: [err]",
+        ),
+        (
+            "ERR-GIT-BARE-REPO",
+            "Operation cannot be performed on a bare Git repository: [err]",
+        ),
+        (
+            "ERR-GIT-UNBORN-BRANCH",
+            "The branch has not been created yet: [err]",
+        ),
+        (
+            "ERR-GIT-UNMERGED",
+            "There are unmerged changes in the Git repository: [err]",
+        ),
+        (
+            "ERR-GIT-NOT-FAST-FORWARD",
+            "The branch is not fast-forwardable: [err]",
+        ),
+        (
+            "ERR-GIT-INVALID-SPEC",
+            "The Git specification provided is invalid: [err]",
+        ),
+        (
+            "ERR-GIT-CONFLICT",
+            "A conflict occurred during the Git operation: [err]",
+        ),
         ("ERR-GIT-LOCKED", "The Git resource is locked: [err]"),
         ("ERR-GIT-MODIFIED", "The file has been modified: [err]"),
-        ("ERR-GIT-AUTH", "Authentication failed during the Git operation: [err]"),
-        ("ERR-GIT-CERTIFICATE", "Certificate validation failed during the Git operation: [err]"),
-        ("ERR-GIT-APPLIED", "The patch has already been applied: [err]"),
+        (
+            "ERR-GIT-AUTH",
+            "Authentication failed during the Git operation: [err]",
+        ),
+        (
+            "ERR-GIT-CERTIFICATE",
+            "Certificate validation failed during the Git operation: [err]",
+        ),
+        (
+            "ERR-GIT-APPLIED",
+            "The patch has already been applied: [err]",
+        ),
         ("ERR-GIT-PEEL", "Peeling operation failed: [err]"),
         ("ERR-GIT-EOF", "Unexpected end of file encountered: [err]"),
-        ("ERR-GIT-INVALID", "An invalid operation was attempted: [err]"),
-        ("ERR-GIT-UNCOMMITTED", "There are uncommitted changes: [err]"),
-        ("ERR-GIT-DIRECTORY", "The directory is invalid or not found: [err]"),
+        (
+            "ERR-GIT-INVALID",
+            "An invalid operation was attempted: [err]",
+        ),
+        (
+            "ERR-GIT-UNCOMMITTED",
+            "There are uncommitted changes: [err]",
+        ),
+        (
+            "ERR-GIT-DIRECTORY",
+            "The directory is invalid or not found: [err]",
+        ),
         ("ERR-GIT-MERGE-CONFLICT", "A merge conflict occurred: [err]"),
-        ("ERR-GIT-HASHSUM-MISMATCH", "Hashsum mismatch detected: [err]"),
+        (
+            "ERR-GIT-HASHSUM-MISMATCH",
+            "Hashsum mismatch detected: [err]",
+        ),
         ("ERR-GIT-INDEX-DIRTY", "The Git index is dirty: [err]"),
         ("ERR-GIT-APPLY-FAIL", "Failed to apply the patch: [err]"),
         ("ERR-GIT-OWNER", "Invalid owner in the Git operation: [err]"),
@@ -105,13 +160,42 @@ impl Settings {
     }
 }
 
-#[derive(Deserialize)]
-pub struct RedisSettings{
+pub struct RedisSettings {
     pub use_redis_cluster: bool,
-    pub cache_location: String
+    pub cache_location: String,
+    pub cache_timeout: Duration 
 }
 
-impl RedisSettings{
+#[derive(Deserialize)]
+pub struct RedisSettingsHelper{
+    pub use_redis_cluster: bool,
+    pub cache_location: String,
+}
+
+impl<'de> Deserialize<'de> for RedisSettings{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where
+            D: serde::Deserializer<'de> {
+        let conf = RedisSettingsHelper::deserialize(deserializer)?;
+        let timeout_str = env::var("CACHE_TIMEOUT").unwrap_or_else(|_| "5m".to_string());
+        let cache_timeout = match parse_duration(&timeout_str) {
+            Ok(dur) => dur,
+            Err(_) => {
+                match timeout_str.parse::<u64>() {
+                    Ok(secs) => Duration::from_secs(secs),
+                    Err(_) => Duration::from_secs(300), 
+                }
+            }
+        };
+        Ok(Self{
+            use_redis_cluster: conf.use_redis_cluster,
+            cache_location: conf.cache_location,
+            cache_timeout
+        })
+    }
+}
+
+impl RedisSettings {
     pub fn new() -> Result<Self, ConfigError> {
         let conf = Config::builder()
             .add_source(Environment::default())
@@ -119,8 +203,6 @@ impl RedisSettings{
         conf.try_deserialize()
     }
 }
-
-
 
 lazy_static! {
     pub static ref error_messages: StandardErrorMessages =
