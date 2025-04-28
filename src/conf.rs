@@ -105,6 +105,23 @@ impl Settings {
     }
 }
 
+#[derive(Deserialize)]
+pub struct RedisSettings{
+    pub use_redis_cluster: bool,
+    pub cache_location: String
+}
+
+impl RedisSettings{
+    pub fn new() -> Result<Self, ConfigError> {
+        let conf = Config::builder()
+            .add_source(Environment::default())
+            .build()?;
+        conf.try_deserialize()
+    }
+}
+
+
+
 lazy_static! {
     pub static ref error_messages: StandardErrorMessages =
         StandardError::load_error_messages().expect("error loading error csv");

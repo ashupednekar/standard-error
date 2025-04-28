@@ -16,7 +16,9 @@ git2 = {version = "0.18.2", optional = true}
 hyper = { version = "1.4.1"}
 lazy_static = "1.5.0"
 log = "0.4.22"
+r2d2 = { version = "0.8.10", optional = true }
 r2d2_postgres = { version = "0.18.1", optional = true }
+redis = { version = "0.30.0", features = ["cluster"], optional = true }
 reqwest = { version = "0.12.7", optional = true }
 serde = "1.0.208"
 serde_json = "1.0.125"
@@ -32,3 +34,4 @@ git = ["dep:git2"]
 reqwest = ["dep:reqwest"]
 validator = ["dep:validator"]
 sqlx = ["dep:sqlx"]
+dynerr = ["dep:redis", "dep:r2d2"]

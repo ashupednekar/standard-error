@@ -42,6 +42,8 @@ impl StandardError {
 
 lazy_static! {
     pub static ref settings: conf::Settings = conf::Settings::new().expect("improperly configured");
+    #[cfg(feature = "dynerr")]
+    pub static ref redis_settings: conf::RedisSettings = conf::RedisSettings::new().expect("improperly configured");
     pub static ref error_messages: StandardErrorMessages =
         StandardError::load_error_messages().expect("error loading error messages");
 }
