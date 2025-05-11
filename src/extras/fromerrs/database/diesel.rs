@@ -1,15 +1,15 @@
-#[cfg(feature="diesel")]
+use crate::{Interpolate, StandardError};
+#[cfg(feature = "diesel")]
 use diesel::result::Error as DieselError;
-use crate::{StandardError, Interpolate};
 
-
-#[cfg(feature="diesel")]
+#[cfg(feature = "diesel")]
 impl From<DieselError> for StandardError {
     fn from(error: DieselError) -> Self {
-        log::error!("db error: {}", &error.to_string()); 
+        log::error!("db error: {}", &error.to_string());
         match error {
-            DieselError::NotFound => StandardError::new("ER-DB-NOTFOUND")
-                .interpolate_err("Record not found".to_string()),
+            DieselError::NotFound => {
+                StandardError::new("ER-DB-NOTFOUND").interpolate_err("Record not found".to_string())
+            }
             DieselError::DatabaseError(_, info) => StandardError::new("ER-DB-DATABASE")
                 .interpolate_err(format!("Database error: {}", info.message())),
             DieselError::QueryBuilderError(_) => StandardError::new("ER-DB-QUERYBUILDER")
@@ -25,5 +25,3 @@ impl From<DieselError> for StandardError {
         }
     }
 }
-
-

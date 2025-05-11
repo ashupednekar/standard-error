@@ -125,7 +125,50 @@ let res = parse_with_chained_errors("abc").await;
 // This will return an error with code "ER-0007", status code 418, and message:
 // "Should be an integer - fname: ashu | lname: pednekar - invalid digit found in string".
 ```
+### Rendering askama templates
 
+Make sure you have the `askama` feature enabled, then you can use the `HtmlRes` trait by calling `.template` and pass in the rendered template, here's an example auth middleware use case
+
+> note: this feature is only available in version `0.1.8` onwards
+
+```rust
+use askama::Template;
+use axum::{
+    extract::{Request, State},
+    http::{HeaderMap, StatusCode, header::COOKIE},
+    middleware::Next,
+    response::Response,
+};
+use axum_extra::extract::CookieJar;
+use sqlx::query;
+use standard_error::{HtmlRes, StandardError, Status};
+
+use crate::prelude::Result;
+
+#[derive(Template)]
+#[template(path = "verify.html")]
+pub struct Verify {}
+
+pub async fn authenticate(
+    request: Request,
+    next: Next,
+) -> Result<Response> {
+    match CookieJar::from_headers(&headers)
+        .get("_Host_lwsuser")
+        .filter(|c| !c.value().is_empty())
+    {
+        Some(token) => {
+            // verify and proceed 
+        }
+        None => {
+            return Err(StandardError::new("ERR-AUTH-001")
+                .code(StatusCode::UNAUTHORIZED)
+                .template(Verify {}.render()?));
+        }
+    };
+    Ok(next.run(request).await)
+}
+```
 ## Installation
 
 Add standard-error to your Cargo.toml:
