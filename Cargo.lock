@@ -2469,7 +2469,7 @@ dependencies = [
 
 [[package]]
 name = "standard-error"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "askama",
  "axum",
