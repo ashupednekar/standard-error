@@ -7,8 +7,8 @@ use serde_json::json;
 impl IntoResponse for StandardError {
     fn into_response(self) -> Response {
         #[cfg(feature = "askama")]
-        if let Some(template) = self.template{
-            return template.render()?
+        if let Some(html) = self.html{
+            return html.into_response()
         }
         (
             self.status_code,

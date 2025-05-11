@@ -23,8 +23,7 @@ pub struct StandardError {
     pub status_code: StatusCode,
     values: HashMap<String, String>,
     pub message: String,
-    #[cfg(feature = "askama")]
-    pub template: Option<askama::Template>
+    pub html: Option<String>
 }
 
 impl StandardError {
@@ -37,6 +36,7 @@ impl StandardError {
                 .get(code)
                 .and_then(|locale_message| locale_message.get(&locale::get_current_locale()))
                 .map_or_else(|| format!("unknown error: {}", &code), |msg| msg.to_string()),
+            html: None
         }
     }
 }
