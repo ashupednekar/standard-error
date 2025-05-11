@@ -1,3 +1,4 @@
+#[cfg(feature = "sqlx")]
 use crate::{Interpolate, StandardError};
 #[cfg(feature = "sqlx")]
 use sqlx::error::Error as SqlxError;

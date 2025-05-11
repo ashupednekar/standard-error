@@ -12,6 +12,7 @@ pub use locale::get_current_locale;
 pub use locale::set_current_locale;
 
 pub type StandardErrorMessages = HashMap<String, HashMap<String, String>>;
+#[cfg(feature = "askama")]
 pub use extras::htmlres::HtmlRes;
 pub use extras::interpolate::Interpolate;
 pub use extras::status::Status;

@@ -1,3 +1,4 @@
+#[cfg(feature = "diesel")]
 use crate::{Interpolate, StandardError};
 #[cfg(feature = "diesel")]
 use diesel::result::Error as DieselError;

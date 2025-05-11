@@ -1,6 +1,7 @@
 #[cfg(feature = "reqwest")]
 use reqwest::Error as ReqwestError;
 
+#[cfg(feature = "reqwest")]
 use crate::{Interpolate, StandardError};
 
 #[cfg(feature = "reqwest")]

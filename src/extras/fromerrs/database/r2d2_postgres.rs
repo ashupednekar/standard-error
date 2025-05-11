@@ -1,3 +1,4 @@
+#[cfg(feature = "diesel")]
 use crate::{Interpolate, StandardError};
 #[cfg(feature = "diesel")]
 use r2d2_postgres::r2d2::Error;
