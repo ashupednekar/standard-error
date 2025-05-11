@@ -1,5 +1,5 @@
-use askama::Error as AskamaError;
 use crate::StandardError;
+use askama::Error as AskamaError;
 
 impl From<AskamaError> for StandardError {
     fn from(error: AskamaError) -> Self {

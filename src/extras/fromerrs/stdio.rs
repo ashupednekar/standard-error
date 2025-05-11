@@ -1,5 +1,5 @@
+use crate::{Interpolate, StandardError};
 use std::io;
-use crate::{StandardError, Interpolate};
 
 impl From<std::io::Error> for StandardError {
     fn from(error: io::Error) -> Self {
