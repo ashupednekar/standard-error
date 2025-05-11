@@ -23,6 +23,8 @@ pub struct StandardError {
     pub status_code: StatusCode,
     values: HashMap<String, String>,
     pub message: String,
+    #[cfg(feature = "askama")]
+    pub template: Option<askama::Template>
 }
 
 impl StandardError {
