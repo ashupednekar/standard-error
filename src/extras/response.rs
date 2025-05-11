@@ -8,7 +8,7 @@ impl IntoResponse for StandardError {
     fn into_response(self) -> Response {
         #[cfg(feature = "askama")]
         if let Some(template) = self.template{
-            return template.render().unwrap()
+            return template.render()?
         }
         (
             self.status_code,
