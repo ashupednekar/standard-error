@@ -1,5 +1,7 @@
 #[cfg(feature = "askama")]
 pub mod askama;
+#[cfg(feature = "nats")]
+pub mod async_nats;
 pub mod axum;
 pub mod database;
 pub mod git;
