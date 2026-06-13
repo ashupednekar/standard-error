@@ -1,4 +1,4 @@
-use axum::http::StatusCode;
+use http::StatusCode;
 use lazy_static::lazy_static;
 use std::collections::HashMap;
 use thiserror::Error;
@@ -54,19 +54,19 @@ lazy_static! {
 #[cfg(test)]
 mod tests {
     use crate::extras::{interpolate::Interpolate, status::Status};
-    use axum::http::StatusCode;
+    use http::StatusCode;
     use std::{collections::HashMap, num::ParseIntError};
 
     use crate::StandardError;
 
-    #[tokio::test]
-    async fn test_question_mark() -> Result<(), StandardError> {
-        async fn foo(a: &str) -> Result<i32, StandardError> {
+    #[test]
+    fn test_question_mark() -> Result<(), StandardError> {
+        fn foo(a: &str) -> Result<i32, StandardError> {
             a.parse()
                 .map_err(|_: ParseIntError| StandardError::new("ER-0004"))
         }
 
-        let res = foo("a").await;
+        let res = foo("a");
 
         if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
@@ -76,15 +76,15 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
-    async fn test_status_code() -> Result<(), StandardError> {
-        async fn foo(a: &str) -> Result<i32, StandardError> {
+    #[test]
+    fn test_status_code() -> Result<(), StandardError> {
+        fn foo(a: &str) -> Result<i32, StandardError> {
             a.parse().map_err(|_: ParseIntError| {
                 StandardError::new("ER-0004").code(StatusCode::BAD_REQUEST)
             })
         }
 
-        let res = foo("a").await;
+        let res = foo("a");
 
         if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::BAD_REQUEST);
@@ -94,15 +94,15 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
-    async fn test_interpolate_err() -> Result<(), StandardError> {
-        async fn foo(a: &str) -> Result<i32, StandardError> {
+    #[test]
+    fn test_interpolate_err() -> Result<(), StandardError> {
+        fn foo(a: &str) -> Result<i32, StandardError> {
             a.parse().map_err(|e: ParseIntError| {
                 StandardError::new("ER-0005").interpolate_err(e.to_string())
             })
         }
 
-        let res = foo("a").await;
+        let res = foo("a");
 
         if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
@@ -115,9 +115,9 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
-    async fn test_interpolate_values() -> Result<(), StandardError> {
-        async fn foo(a: &str) -> Result<i32, StandardError> {
+    #[test]
+    fn test_interpolate_values() -> Result<(), StandardError> {
+        fn foo(a: &str) -> Result<i32, StandardError> {
             a.parse().map_err(|_: ParseIntError| {
                 let mut values: HashMap<String, String> = HashMap::new();
                 values.insert("fname".to_string(), "ashu".to_string());
@@ -126,7 +126,7 @@ mod tests {
             })
         }
 
-        let res = foo("a").await;
+        let res = foo("a");
 
         if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::INTERNAL_SERVER_ERROR);
@@ -139,9 +139,9 @@ mod tests {
         Ok(())
     }
 
-    #[tokio::test]
-    async fn test_chain() -> Result<(), StandardError> {
-        async fn foo(a: &str) -> Result<i32, StandardError> {
+    #[test]
+    fn test_chain() -> Result<(), StandardError> {
+        fn foo(a: &str) -> Result<i32, StandardError> {
             a.parse().map_err(|e: ParseIntError| {
                 let mut values: HashMap<String, String> = HashMap::new();
                 values.insert("fname".to_string(), "ashu".to_string());
@@ -153,7 +153,7 @@ mod tests {
             })
         }
 
-        let res = foo("a").await;
+        let res = foo("a");
 
         if let Err(e) = res {
             assert_eq!(e.status_code, StatusCode::IM_A_TEAPOT);

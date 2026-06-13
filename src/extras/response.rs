@@ -1,5 +1,7 @@
 use crate::StandardError;
-use axum::response::{Response, IntoResponse, Html};
+#[cfg(feature = "askama")]
+use axum::response::Html;
+use axum::response::{IntoResponse, Response};
 use axum::Json;
 use serde_json::json;
 
