@@ -39,8 +39,8 @@ impl StandardError {
 mod tests {
     use super::*;
 
-    #[tokio::test]
-    async fn test_error_csv_loader() {
+    #[test]
+    fn test_error_csv_loader() {
         env_logger::init();
         StandardError::load_error_messages().unwrap();
     }
