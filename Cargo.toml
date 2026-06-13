@@ -8,13 +8,13 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = { version = ">=0.7.0, <0.8.0", default-features = false, features = ["json"], optional = true }
+axum = { version = ">=0.7.0, <0.8.0", default-features = false, features = ["json"] }
 config = { version = "0.14.0", default-features = false }
 diesel = { version = "2.2.4", default-features = false, features = ["extras"], optional = true}
 env_logger = "0.11.5"
 git2 = {version = "0.18.2", optional = true}
 http = "1.1"
-hyper = { version = "1.4.1", default-features = false, optional = true }
+hyper = { version = "1.4.1", default-features = false }
 lazy_static = "1.5.0"
 log = "0.4.22"
 r2d2_postgres = { version = "0.18.1", optional = true }
@@ -32,9 +32,6 @@ async-nats = { version = "0.41.0", optional = true }
 tokio = { version = "1.39.2", features = ["test-util", "macros", "rt"] }
 
 [features]
-axum = ["dep:axum", "dep:hyper"]
-axum-multipart = ["axum", "axum/multipart"]
-axum-ws = ["axum", "axum/ws"]
 diesel = ["dep:diesel", "dep:r2d2_postgres"]
 git = ["dep:git2"]
 reqwest = ["dep:reqwest"]

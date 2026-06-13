@@ -2,7 +2,6 @@
 pub mod askama;
 #[cfg(feature = "nats")]
 pub mod async_nats;
-#[cfg(feature = "axum")]
 pub mod axum;
 pub mod database;
 pub mod git;
